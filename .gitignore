@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environments
+venv/
+.env
+
+# Logs
+config.py
+*.log
+
+# VSCode
+.vscode/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# PyCharm
+.idea/
+
+# Data or generated
+*.sqlite3
+*.db
+*.jpg
+*.png
+*.webp
+outputs/
