@@ -1,3 +1,5 @@
+#handlers/image.py
+
 from telegram.ext import CommandHandler, MessageHandler, filters
 from telegram import Update
 from telegram.ext import ContextTypes
@@ -34,7 +36,7 @@ async def handle_image_prompt(update: Update, context: ContextTypes.DEFAULT_TYPE
                 user_data["state"] = STATE_WAITING_POSITIVE
                 await update.message.reply_text("Отлично! Теперь введи позитивный промпт на английском, через запятую ✨")
 
-                mage_type = "Realism" if message == "1" else "Illustration"
+                image_type = "Realism" if message == "1" else "Illustration"
                 append_to_history(chat_id, "user", f"Selected image type: {image_type}")
             else:
                 await update.message.reply_text("Пожалуйста, выбери: `1` или `2`")
@@ -45,7 +47,7 @@ async def handle_image_prompt(update: Update, context: ContextTypes.DEFAULT_TYPE
             await update.message.reply_text("Теперь введи негативный промпт на английском ❌")
     
 
-            ahappend_to_history(chat_id, "user", f"Positive prompt: {message}")
+            append_to_history(chat_id, "user", f"Positive prompt: {message}")
 
         elif state == STATE_WAITING_NEGATIVE:
             user_data["negative_prompt"] = message

@@ -1,11 +1,10 @@
-from telegram.ext import CommandHandler, MessageHandler, filters
+#handlers/chat.py
+
+from telegram.ext import CommandHandler
 from telegram import Update
 from telegram.ext import ContextTypes
 from state.chat_memory import chat_histories
 from state.image_state import user_states
-from utils.base_prompts import get_system_prompt
-from handlers.image import handle_image_prompt
-from config import MAX_HISTORY_LENGTH
 from services.ollama_client import get_ollama_response
 from utils.texts import COMMANDS_TEXT
 from utils.chat_history import append_to_history
@@ -24,15 +23,6 @@ async def reset_all(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_states.pop(user_id, None)
     await update.message.reply_text("🧹 Всё очищено. Можно начинать заново!")
 
-async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    user_id = update.effective_user.id
-
-    if user_id in user_states:
-        await handle_image_prompt(update, context)
-    else:
-        await handle_chat(update, context)
-
-
 async def handle_chat(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat_id = update.effective_chat.id
     msg = update.message.text
@@ -49,5 +39,4 @@ def get_handlers():
         CommandHandler("start", start),
         CommandHandler("reset", reset_all),
         CommandHandler("help", help_command),
-        MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message),
     ]
